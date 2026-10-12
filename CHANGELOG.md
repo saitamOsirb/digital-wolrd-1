@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 — 2026-10-12
+- Extraído y decodificado localmente el escenario original `TWNA01.TFS` de File City desde la copia USA aportada por el usuario.
+- Nuevo lector Python de ISO9660 desde imágenes PS1 BIN Mode2/2352 y convertidor de TFS a PNG con paletas CLUT.
+- Escenario real validado a 768×640 (6×5 tiles de 128×128) y visualizado mediante PNG.
+- Godot preserva ahora la proporción de la textura original; no se distribuyen assets comerciales en GitHub.
+- Añadidas pruebas sintéticas para el orden de tiles, colores y archivos TFS incompletos.
+- Pendientes cámara de PS1, overlays, colisiones originales y modelo/animación del protagonista.
+
 ## 0.4.0 — 2026-10-12
 - Demo de renderizado de un escenario completo en Godot/GDScript con fondo compuesto por tiles de 128×128.
 - Fondo sintético de emergencia generado dentro de Godot para ejecutar F5 sin depender de herramientas externas.
