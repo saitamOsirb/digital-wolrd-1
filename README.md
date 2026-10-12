@@ -1,5 +1,8 @@
 # Digital World 1 Online
 
+> **Arquitectura vigente desde 0.2.0:** cliente Godot 4 con GDScript, servidor C# ASP.NET Core, importadores Python. Para iniciar el juego abre `client-godot/project.godot` con Godot. El prototipo TypeScript descrito más abajo se conserva solo como antecedente técnico. Consulta [arquitectura](docs/ARCHITECTURE.md).
+
+
 Reimplementación web experimental inspirada en el flujo de exploración de Digimon World (PS1).
 
 ## Estado — 0.1.0

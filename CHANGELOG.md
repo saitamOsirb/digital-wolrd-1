@@ -1,14 +1,18 @@
 # Changelog
 
+## 0.2.0 — 2026-10-12
+- Arquitectura oficializada: Godot 4/GDScript para cliente, C# ASP.NET Core para servidor, Python para herramientas.
+- Añadida escena Godot 3D sintética para validar movimiento, cámara, gravedad y colisión.
+- Añadido servicio C# de salud y WebSocket de diagnóstico (NO multijugador completo).
+- Añadido importador Python de matriz de colisiones DW1 100×100 y tests.
+- Preservado prototipo anterior de TypeScript sin revertir cambios.
+
 ## 0.1.1 — 2026-10-12
 - Separada definición del escenario de la simulación y del cliente mediante JSON con validación estricta.
 - Cámara limitada a los márgenes de cada escenario, incluso con viewport más grande que el mapa.
 - Renderizado de capas sintéticas de un escenario y animación provisional de movimiento.
 - Pruebas de carga de escenas, spawn, colisiones y cámara.
-- Documentado el proceso de importación, fuentes de ingeniería inversa y limitaciones de recursos.
 
 ## 0.1.0 — 2026-10-12
 - Inicialización del cliente web en TypeScript.
 - Primera escena de exploración con cámara, movimiento y colisiones.
-- Simulación independiente del renderizador y pruebas básicas.
-- Documentación de fuentes de ingeniería inversa y limitaciones de assets.
