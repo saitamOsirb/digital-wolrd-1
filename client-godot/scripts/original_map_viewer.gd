@@ -2,6 +2,7 @@ extends Node2D
 # Inspección del fondo original de DW1. Marcador y navegación son DIAGNÓSTICOS,
 # no representan al protagonista ni la cámara/calibración auténticos.
 const ORIGINAL_MAP := "res://assets/demo/map.png"
+const ORIGINAL_METADATA := "res://assets/demo/map.json"
 const MIN_ZOOM := 0.25
 const MAX_ZOOM := 6.0
 const MARKER_SPEED := 145.0
@@ -13,6 +14,7 @@ var marker_position := Vector2.ZERO
 var zoom_value := 1.0
 var dragging := false
 var follow_marker := false
+var map_label := "Mapa original"
 
 func _ready() -> void:
     get_viewport().size_changed.connect(_fit_viewport)
@@ -52,6 +54,15 @@ func _load_original_map() -> void:
         marker.visible = false
         return
     picture.texture = ImageTexture.create_from_image(image)
+    map_label = "Mapa original"
+    if FileAccess.file_exists(ORIGINAL_METADATA):
+        var metadata_file := FileAccess.open(ORIGINAL_METADATA, FileAccess.READ)
+        if metadata_file != null:
+            var parsed: Variant = JSON.parse_string(metadata_file.get_as_text())
+            if parsed is Dictionary:
+                var value: Variant = parsed.get("mapId", "")
+                if value is String and not value.is_empty():
+                    map_label = value
     marker_position = image.get_size() * 0.5
     _update_marker()
     _fit_viewport()
