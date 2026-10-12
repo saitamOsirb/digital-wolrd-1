@@ -2,12 +2,12 @@ extends Node3D
 
 const CollisionMap = preload("res://scripts/collision_loader.gd")
 const DIAGNOSTIC_FILE = "res://assets/diagnostic/collision.json"
-const TexturePreview = preload("res://scripts/texture_preview.gd")
+const MapRenderer = preload("res://scripts/map_renderer.gd")
 
 # Synthetic 3D test map. Does NOT reproduce an original DW1 stage.
 func _ready() -> void:
     _add_floor()
-    add_child(TexturePreview.new())
+    add_child(MapRenderer.new())
     var imported: Array[Dictionary] = CollisionMap.load_map(DIAGNOSTIC_FILE)
     if imported.is_empty():
         _add_block(Vector3(6, 1.0, 2), Vector3(3, 2, 3), Color(0.36, 0.51, 0.41))
