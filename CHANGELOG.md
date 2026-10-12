@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1 — 2026-10-12
+- Añadido visualizador 2D GDScript del mapa real importado de PS1, con zoom, arrastre y encuadre.
+- El visualizador es ahora la escena de inicio de Godot; se conserva la prueba 3D anterior.
+- Si falta el PNG extraído, se muestran instrucciones; no se genera un mapa sintético en esta pantalla.
+- Actualizados README y guía de ejecución. La fidelidad de cámara/personaje, overlays y colisiones originales sigue pendiente.
+- Pendiente prueba de ejecución en el editor Godot.
+
 ## 0.5.0 — 2026-10-12
 - Extraído y decodificado localmente el escenario original `TWNA01.TFS` de File City desde la copia USA aportada por el usuario.
 - Nuevo lector Python de ISO9660 desde imágenes PS1 BIN Mode2/2352 y convertidor de TFS a PNG con paletas CLUT.
