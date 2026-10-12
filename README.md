@@ -11,7 +11,7 @@ No se utiliza Node.js, npm, Vite ni TypeScript. El prototipo anterior se retiró
 
 ## Ejecución
 
-**Cliente:** importar `client-godot/project.godot` en Godot 4 y ejecutar F5. El escenario actual y el personaje son temporales; todavía no es el File City original.
+**Cliente:** importar `client-godot/project.godot` en Godot 4 y ejecutar F5. La escena inicial es un **visualizador del fondo original** de TWNA01, si se ha generado el PNG local desde la copia del usuario (ver [guía](docs/ORIGINAL_MAP_VIEWER.md)). Si no se ha importado, muestra instrucciones. La antigua prueba de personaje y movimiento 3D continúa en `client-godot/scenes/world.tscn`; la perspectiva y jugabilidad originales aún no están reproducidas.
 
 **Servidor:**
 ```powershell
