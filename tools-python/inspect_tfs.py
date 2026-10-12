@@ -8,7 +8,6 @@ import json
 import struct
 from pathlib import Path
 
-CLUT_BYTES = 256
 TILE_BYTES = 4 + 4096 * 4  # one skipped uint32 plus 16 KiB of source image words
 
 def inspect_tfs(data: bytes, tile_count: int = 0) -> dict:
@@ -19,9 +18,6 @@ def inspect_tfs(data: bytes, tile_count: int = 0) -> dict:
     unknown_header, clut_count = struct.unpack_from("<II", data)
     if clut_count > 1024:
         raise ValueError("Implausible CLUT count")
-    palette_end = 8 + clut_count * CLUT_BYTES
-    if palette_end > len(data):
-        raise ValueError("Truncated CLUT table")
     # map.c: data++; numCluts=*data++; each CLUT advances 128 u_long
     # (512 bytes). Do not confuse LoadClut's upload width with table stride.
     palette_stride = 128 * 4
