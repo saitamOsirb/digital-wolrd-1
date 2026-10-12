@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 — 2026-10-12
+- Generador Python de un fixture sintético 100×100 para visualizar las colisiones en Godot.
+- Uso: `python tools-python/generate_demo_collision.py`.
+- El escenario real de File City sigue pendiente.
+
+
 ## 0.2.1 — 2026-10-12
 - Se añadió un cargador Godot para obstáculos rectangulares provenientes de JSON de diagnóstico.
 - Se integró opcionalmente en la escena principal, preservando el mapa sintético anterior como fallback.
