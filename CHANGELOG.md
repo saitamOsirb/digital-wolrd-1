@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3 — 2026-10-12
+- Nuevo inspector Python de dimensión y lista de tiles MAP utilizando enteros de 32 bits como en `loadMapSetup`.
+- Correlación de tiles no vacíos con bloques candidatos de datos TFS, sin asumir que todos los tiles ocupan payload.
+- Pruebas con mapas sintéticos de ocupación dispersa y detección de datos truncados.
+- La geometría, texturas y presentación original de File City aún no han sido recuperadas.
+
 ## 0.3.2 — 2026-10-12
 - Añadido analizador Python de estructura preliminar TFS según `MAIN_func_800D634C` de `dw_decomp`.
 - Identificado desplazamiento de 512 bytes por CLUT y bloque de 16.384 bytes por tile no vacío, más encabezado de 4 bytes.
