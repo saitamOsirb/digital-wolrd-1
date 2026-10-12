@@ -22,3 +22,8 @@ La escena anterior 3D `res://scenes/world.tscn` se conserva para investigar movi
 El visualizador muestra exclusivamente el fondo estático original. Todavía no reproduce cámara/proyección de PS1, profundidad, overlays, tamer 3D ni colisiones exactas, y no constituye una demo jugable original. El PNG convertido se mantiene fuera de GitHub.
 
 Godot y .NET no están disponibles en el entorno donde se preparó esta entrega, por lo que la ejecución de la escena en el editor todavía debe validarse.
+
+## Navegación de coordenadas (0.5.2)
+El visor muestra ahora un **marcador temporal** sobre el fondo gráfico importado y sus coordenadas en píxeles. WASD o flechas mueven el marcador; Shift + clic lo posiciona en un punto del fondo; F activa/desactiva que el mapa siga el marcador; R recupera el encuadre. Se mantiene el arrastre con mouse y zoom mediante rueda.
+
+Estas posiciones **NO son coordenadas del mundo PS1** y no tienen aún colisiones, perspectiva ni modelo original del protagonista. Es una herramienta de calibración para preparar la transformación 3D→2D con datos originales. El fondo no se altera.
