@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.3 — 2026-10-12
+- Nuevo parser Python de metadatos de cámara, distancia de proyección, dimensiones y tiles desde la estructura MAP setup original.
+- Extracción local desde la copia PlayStation del usuario y exportación de `map_setup.json`.
+- Pruebas unitarias con fixtures binarios para cámara y tabla de tiles.
+- Documentado que la correspondencia de coordenadas PS1→Godot aún no está calibrada; se mantiene el visor del mapa original.
+
 ## 0.5.2 — 2026-10-12
 - Añadido marcador de diagnóstico sobre el fondo original de TWNA01, con coordenadas en píxeles.
 - Movimiento de prueba por WASD/flechas, posicionamiento por Shift+clic y seguimiento opcional con F.
