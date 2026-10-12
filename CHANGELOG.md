@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.3 — 2026-10-12
+- Primer decodificador de texturas PlayStation TIM en Python (4/8/16/24 bpp, CLUT).
+- Conversión local de TIM a PNG RGBA sin dependencias externas.
+- Pruebas con datos sintéticos para los cuatro modos, validación de errores y formato PNG.
+- Documentada la semitransparencia PS1 y las limitaciones del importador; no se incluyen texturas comerciales.
+- Todavía no existe extracción de contenedores de mapa ni renderización de File City auténtico.
+
 ## 0.2.2 — 2026-10-12
 - Generador Python de un fixture sintético 100×100 para visualizar las colisiones en Godot.
 - Uso: `python tools-python/generate_demo_collision.py`.
