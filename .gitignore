@@ -1,16 +1,18 @@
-node_modules/
-dist/
 .local-assets/
 *.iso
 *.bin
 *.cue
 *.chd
 .env
-
-# Godot cache and C# build
+# Godot
 **/.godot/
+client-godot/assets/diagnostic/
+# .NET
 **/bin/
 **/obj/
 **/.vs/
+# Python
 __pycache__/
 *.pyc
+.venv/
+.pytest_cache/

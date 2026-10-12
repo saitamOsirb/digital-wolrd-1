@@ -1,20 +1,26 @@
-# Roadmap técnico
+# Roadmap — Godot/GDScript + C# + Python
 
-## Etapa 1 — Vertical slice (0.1.0)
-- [x] Canvas de prueba de exploración.
-- [x] Mover avatar y cámara; resolver colisiones de obstáculos.
-- [x] Separar estado/simulación de la presentación.
-- [ ] Importar un mapa real con su geometría y texturas (dependiente de extractor).
-- [ ] Importar el modelo original del protagonista y sus animaciones.
-- [ ] Validar orientación, cámara y límites contra emulador.
+## Etapa 1: Exploración en Godot
+- [x] Proyecto Godot con personaje, cámara, suelo y obstáculos sintéticos.
+- [x] Lectura de colisiones JSON mediante GDScript.
+- [ ] Validación del cliente en Godot real.
+- [ ] Cámara original y movimiento del protagonista auténtico.
 
-## Etapa 2 — Fidelidad gráfica
-Estudiar formato de escenarios, geometría PS1, texturas y animaciones; crear convertidores offline con fixtures sintéticos para CI. Probar WebGL2/WebGPU para escenas 3D (no convertir prematuramente los fondos en tiles 2D). Aplicar oclusión y profundidad reales.
+## Etapa 2: Herramientas Python
+- [x] Importador diagnóstico de matrices 100×100.
+- [x] Convertidor TIM a PNG y pruebas sintéticas.
+- [x] Inspector preliminar de tabla de offsets de mapas.
+- [ ] Descubrir empaquetado real y extraer recursos por formato comprobado.
+- [ ] Conversión de geometría/modelos/animaciones a Godot.
 
-## Etapa 3 — Comportamiento
-Control y movimiento canónicos, seguidor, transiciones de zona, triggers y NPC. Pruebas de regresión de colisiones y navegación.
+## Etapa 3: Cliente fiel a DW1
+- [ ] Escenario real de File City con texturas originales obtenidas legalmente.
+- [ ] Personaje, animaciones y Digimon acompañante.
+- [ ] Transiciones, triggers y NPC.
 
-## Etapa 4 — Online
-Servidor TypeScript con estado autoritativo, instancias de mapa, sincronización de posiciones, autenticación y persistencia.
+## Etapa 4: Servidor C#
+- [ ] Estado autoritativo, sincronización WebSocket.
+- [ ] Autenticación, personajes y persistencia.
+- [ ] Instancias y gameplay multijugador.
 
-**Nota de investigación:** `dw_decomp` y `DW1-Code` corresponden a DW1; `DWDDRandomizer` es para Dawn/Dusk de NDS, por lo que sus datos no corresponden a los escenarios PS1.
+No se utilizarán tecnologías de frontend JavaScript/TypeScript en este proyecto.

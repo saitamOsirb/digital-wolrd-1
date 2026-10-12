@@ -1,33 +1,40 @@
 # Digital World 1 Online
 
-> **Arquitectura vigente desde 0.2.0:** cliente Godot 4 con GDScript, servidor C# ASP.NET Core, importadores Python. Para iniciar el juego abre `client-godot/project.godot` con Godot. El prototipo TypeScript descrito más abajo se conserva solo como antecedente técnico. Consulta [arquitectura](docs/ARCHITECTURE.md).
+Proyecto para recrear la exploración de Digimon World 1 con un cliente Godot, un servidor C# y herramientas Python.
 
+## Stack definitivo
+- **Cliente:** Godot 4, exclusivamente **GDScript**.
+- **Backend:** C# / ASP.NET Core (.NET 8).
+- **Herramientas y pruebas de conversión:** Python 3.11+.
 
-Reimplementación web experimental inspirada en el flujo de exploración de Digimon World (PS1).
+No se utiliza Node.js, npm, Vite ni TypeScript. El prototipo anterior se retiró del árbol de trabajo; su historial permanece en Git.
 
-## Estado — 0.1.0
-Primera *vertical slice* jugable: mapa de prueba, avatar temporal, cámara, colisiones y movimiento continuo por teclado. **Todavía no renderiza los escenarios ni los modelos originales**: estos requieren extracción legal, conversión y validación de formatos. La demo usa gráficos geométricos propios para comprobar el motor sin redistribuir material protegido.
+## Ejecución
 
-## Ejecutar
-Requisitos: Node.js 22.10+ y pnpm 9+.
+**Cliente:** importar `client-godot/project.godot` en Godot 4 y ejecutar F5. El escenario actual y el personaje son temporales; todavía no es el File City original.
 
-```bash
-pnpm install
-pnpm dev
+**Servidor:**
+```powershell
+dotnet run --project server/DigitalWorld.Server.csproj
 ```
 
-Abrir la URL indicada por Vite. Movimiento: WASD o flechas, Shift para correr. Panel de diagnóstico: posición, FPS y estado de colisiones. Las pruebas de lógica: `pnpm test`.
+**Herramientas Python:**
+```powershell
+python -m unittest discover -s tools-python -p "test_*.py"
+python tools-python/generate_demo_collision.py
+```
+El segundo comando crea `client-godot/assets/diagnostic/collision.json`, consumido por Godot para mostrar colisiones sintéticas.
 
-## Referencias técnicas
-- [dw_decomp](https://github.com/saitamOsirb/dw_decomp): decompilación en progreso del **Digimon World de PS1**. Referencia principal para reconstruir comportamiento.
-- [DW1-Code](https://github.com/saitamOsirb/DW1-Code): anotaciones y rutinas de ingeniería inversa de DW1 (movimiento, colisiones, cámara y entidades).
-- [DWDDRandomizer](https://github.com/saitamOsirb/DWDDRandomizer): **Dawn/Dusk de Nintendo DS**, no DW1. Útil solo como referencia de herramientas y calidad, nunca como fuente de mapas de PS1.
+## Estructura
+- `client-godot/`: cliente y escenas en GDScript.
+- `server/`: servidor C#.
+- `tools-python/`: conversores, analizadores y pruebas en Python.
+- `docs/`: arquitectura, roadmap e investigación técnica.
 
-## Arquitectura prevista
-`client/`: Vite + TypeScript + Canvas2D (motor de pruebas). `shared/`: geometría y simulación pura. `server/`: autoridad multijugador, aún sin implementar. `tools/`: importadores futuros de recursos extraídos legalmente.
+## Referencias
+- [dw_decomp](https://github.com/saitamOsirb/dw_decomp): ingeniería inversa del juego de PlayStation.
+- [DW1-Code](https://github.com/saitamOsirb/DW1-Code): rutinas documentadas de DW1.
+- [DWDDRandomizer](https://github.com/saitamOsirb/DWDDRandomizer): es de Dawn/Dusk (Nintendo DS), no de DW1; solo referencia secundaria.
 
-## Política de recursos
-No subir ISOs, archivos extraídos de juegos comerciales ni modelos/texturas originales sin contar con los derechos necesarios. Un extractor local debería recibir archivos del usuario y escribir en una ruta ignorada por git.
-
-## Evolución
-Ver [CHANGELOG.md](CHANGELOG.md) y [docs/ROADMAP.md](docs/ROADMAP.md).
+## Recursos
+El repositorio no distribuye copias del juego, ROM, ISO ni recursos originales comerciales. Las herramientas consumen recursos que el usuario tenga derecho a utilizar y los resultados extraídos deben mantenerse locales.
