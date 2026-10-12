@@ -6,7 +6,7 @@ Reimplementación web experimental inspirada en el flujo de exploración de Digi
 Primera *vertical slice* jugable: mapa de prueba, avatar temporal, cámara, colisiones y movimiento continuo por teclado. **Todavía no renderiza los escenarios ni los modelos originales**: estos requieren extracción legal, conversión y validación de formatos. La demo usa gráficos geométricos propios para comprobar el motor sin redistribuir material protegido.
 
 ## Ejecutar
-Requisitos: Node.js 20+ y pnpm 9+.
+Requisitos: Node.js 22.10+ y pnpm 9+.
 
 ```bash
 pnpm install
