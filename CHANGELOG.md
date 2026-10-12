@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.4 — 2026-10-12
+- Indexador Python de archivos TFS originales dentro de un BIN PS1 local, sin distribuir sus recursos.
+- Importador de cualquier ruta TFS encontrada en el disco a `map.png` y `map.json` para Godot.
+- El visualizador GDScript muestra el identificador del mapa importado, sin asumir siempre TWNA01.
+- Pruebas Python de validación de rutas y documentación de uso.
+- No se ha verificado la ejecución completa en Godot; modelos 3D, cámara y colisiones originales pendientes.
+
 ## 0.5.3 — 2026-10-12
 - Nuevo parser Python de metadatos de cámara, distancia de proyección, dimensiones y tiles desde la estructura MAP setup original.
 - Extracción local desde la copia PlayStation del usuario y exportación de `map_setup.json`.
