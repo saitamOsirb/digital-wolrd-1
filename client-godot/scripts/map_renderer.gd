@@ -15,7 +15,7 @@ func _ready() -> void:
         image = _create_synthetic_map()
     var plane := MeshInstance3D.new()
     var mesh := PlaneMesh.new()
-    mesh.size = Vector2(WORLD_SIZE, WORLD_SIZE)
+    mesh.size = Vector2(WORLD_SIZE, WORLD_SIZE * float(image.get_height()) / float(image.get_width()))
     plane.mesh = mesh
     plane.position.y = 0.015
     var material := StandardMaterial3D.new()
