@@ -36,7 +36,7 @@ def directory_entries(data: bytes):
             raise ValueError("Malformed directory record")
         name_length = entry[32]
         name = entry[33:33 + name_length].decode("ascii", "replace")
-        if name in ("\\x00", "\\x01"):
+        if name_length == 1 and entry[33] in (0, 1):
             continue
         yield {"name": name.split(";")[0], "lba": int.from_bytes(entry[2:6], "little"),
                "size": int.from_bytes(entry[10:14], "little"),
@@ -48,7 +48,7 @@ def extract_iso_file(path: Path, target: str) -> bytes:
         raise ValueError("Invalid internal path")
     with path.open("rb") as handle:
         descriptor = read_extent(handle, 16, LOGICAL_SIZE)
-        if descriptor[:7] != b"\\x01CD001\\x01":
+        if descriptor[:7] != bytes([1]) + b"CD001" + bytes([1]):
             raise ValueError("Not an ISO9660 primary volume descriptor in Mode2/2352")
         root = descriptor[156:190]
         current_lba = int.from_bytes(root[2:6], "little")
