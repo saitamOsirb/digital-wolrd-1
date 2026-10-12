@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 — 2026-10-12
+- Demo de renderizado de un escenario completo en Godot/GDScript con fondo compuesto por tiles de 128×128.
+- Fondo sintético de emergencia generado dentro de Godot para ejecutar F5 sin depender de herramientas externas.
+- Herramienta Python para componer una imagen de mapa 512×512 y exportar un PNG/manifest para Godot.
+- Conservadas las colisiones 3D y el movimiento del avatar; añadidas pruebas Python de composición.
+- Documentación para ejecutar ambas rutas y exclusión de los mapas locales generados de Git.
+- **No representa File City real**: la decodificación TFS de contenido comercial continúa pendiente.
+
 ## 0.3.3 — 2026-10-12
 - Nuevo inspector Python de dimensión y lista de tiles MAP utilizando enteros de 32 bits como en `loadMapSetup`.
 - Correlación de tiles no vacíos con bloques candidatos de datos TFS, sin asumir que todos los tiles ocupan payload.
