@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-10-12
+- Se añadió un cargador Godot para obstáculos rectangulares provenientes de JSON de diagnóstico.
+- Se integró opcionalmente en la escena principal, preservando el mapa sintético anterior como fallback.
+- Se requiere un JSON local válido para activar la visualización; aún no representa File City.
+- No se verificó ejecución en Godot.
+
 ## 0.2.0 — 2026-10-12
 - Arquitectura oficializada: Godot 4/GDScript para cliente, C# ASP.NET Core para servidor, Python para herramientas.
 - Añadida escena Godot 3D sintética para validar movimiento, cámara, gravedad y colisión.
