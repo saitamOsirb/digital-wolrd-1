@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2 — 2026-10-12
+- Añadido analizador Python de estructura preliminar TFS según `MAIN_func_800D634C` de `dw_decomp`.
+- Identificado desplazamiento de 512 bytes por CLUT y bloque de 16.384 bytes por tile no vacío, más encabezado de 4 bytes.
+- Añadidas pruebas sintéticas de offsets y validación de archivos incompletos.
+- Documentadas las incertidumbres del formato y la dependencia de la metadata MAP_TILES.
+- Se mantienen exclusivamente Godot/GDScript, C# y Python.
+
 ## 0.3.1 — 2026-10-12
 - Integración diagnóstica de texturas PNG en escena Godot mediante GDScript, sin agregar TypeScript.
 - Generador Python de textura TIM sintética de 16 bits y conversión a PNG.
