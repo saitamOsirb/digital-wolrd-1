@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 — 2026-10-12
+- Integración diagnóstica de texturas PNG en escena Godot mediante GDScript, sin agregar TypeScript.
+- Generador Python de textura TIM sintética de 16 bits y conversión a PNG.
+- Pruebas unitarias del fixture y documentación del flujo Python → Godot.
+- Los recursos del juego original, el escenario de File City y la fidelidad visual siguen pendientes de importación.
+
 ## 0.3.0 — 2026-10-12
 - Limpieza completa del árbol de trabajo: eliminado el prototipo TypeScript, Vite, Node.js y sus archivos asociados.
 - Arquitectura única: cliente Godot en GDScript, backend C# y herramientas Python.
