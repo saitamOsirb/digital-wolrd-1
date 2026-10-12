@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.2 — 2026-10-12
+- Añadido marcador de diagnóstico sobre el fondo original de TWNA01, con coordenadas en píxeles.
+- Movimiento de prueba por WASD/flechas, posicionamiento por Shift+clic y seguimiento opcional con F.
+- Se mantienen zoom y desplazamiento del visor original, sin añadir escenarios sintéticos ni TypeScript.
+- El marcador aún no es el protagonista real; las coordenadas de PS1, colisiones y proyección siguen pendientes.
+- No se ha podido comprobar la escena en una ejecución local de Godot.
+
 ## 0.5.1 — 2026-10-12
 - Añadido visualizador 2D GDScript del mapa real importado de PS1, con zoom, arrastre y encuadre.
 - El visualizador es ahora la escena de inicio de Godot; se conserva la prueba 3D anterior.
