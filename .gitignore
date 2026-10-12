@@ -6,3 +6,11 @@ dist/
 *.cue
 *.chd
 .env
+
+# Godot cache and C# build
+**/.godot/
+**/bin/
+**/obj/
+**/.vs/
+__pycache__/
+*.pyc
