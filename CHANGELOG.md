@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.3 — 2026-10-13
+- Importación guiada desde candidatos TMD auditados del disco original hacia la previsualización 3D texturizada de Godot.
+- Selección obligatoria de ruta de archivo, offset y rutas TIM reales: no se infiere identidad del protagonista ni su textura.
+- Se genera provenance.json local con procedencia y estado explícito de verificaciones aún pendientes.
+- Pruebas sintéticas para candidatos válidos/inválidos e importación con recursos indicados por el usuario.
+- Pendiente validar con BIN real, identificar al protagonista, decodificar animaciones e integrarlo en File City.
+
 ## 0.8.2 — 2026-10-13
 - Auditoría integral de archivos CHDAT directamente desde un BIN de PlayStation local: indexación de candidatos TMD/MMD/MTN y análisis de compatibilidad con los conversores existentes.
 - Informe JSON por archivo con detección de firmas, vértices, caras texturizadas compatibles y causas de fallo sin afirmar identidad del protagonista.
