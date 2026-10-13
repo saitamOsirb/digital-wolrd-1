@@ -12,6 +12,7 @@ const WalkZones = preload("res://scripts/map_walk_zones.gd")
 const ZONES_PATH := "res://assets/maps/walk_zones.json"
 const MapTransitions = preload("res://scripts/map_transitions.gd")
 const LINKS_PATH := "res://assets/maps/transitions.json"
+const ZoneEditor = preload("res://scripts/map_zone_editor.gd")
 const ExplorationSave = preload("res://scripts/exploration_save.gd")
 
 var picture: Sprite2D
@@ -30,6 +31,8 @@ var collisions_enabled := true
 var transition_zones: Array[Dictionary] = []
 var transition_cooldown := 0.0
 var show_debug_zones := false
+var editing_zones := false
+var draft_vertices := PackedVector2Array()
 
 func _ready() -> void:
     get_viewport().size_changed.connect(_fit_viewport)
@@ -104,6 +107,12 @@ func _draw_zones() -> void:
             zone_overlay.draw_colored_polygon(shifted, Color(0.95, 0.12, 0.12, 0.22))
             for i in range(shifted.size()):
                 zone_overlay.draw_line(shifted[i], shifted[(i + 1) % shifted.size()], Color(1.0, 0.18, 0.18), 2.0)
+    if draft_vertices.size() > 0:
+        for i in range(draft_vertices.size()):
+            var point := draft_vertices[i] + displacement
+            zone_overlay.draw_circle(point, 3.0, Color.YELLOW)
+            if i > 0:
+                zone_overlay.draw_line(draft_vertices[i - 1] + displacement, point, Color.YELLOW, 2.0)
     for link in transition_zones:
         var box: Rect2 = link["rect"]
         zone_overlay.draw_rect(Rect2(box.position + displacement, box.size), Color(0.1, 0.95, 0.7, 0.3), true)
@@ -172,6 +181,7 @@ func _load_original_map() -> void:
     marker.visible = true
     blocked_zones = WalkZones.load_polygons(ZONES_PATH, map_label)
     transition_zones = MapTransitions.load_links(LINKS_PATH, map_label)
+    draft_vertices.clear()
     zone_overlay.queue_redraw()
     marker_position = image.get_size() * 0.5
     _update_marker()
@@ -260,6 +270,10 @@ func _unhandled_input(event: InputEvent) -> void:
     if picture.texture == null:
         return
     if event is InputEventMouseButton:
+        if editing_zones and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+            draft_vertices.append(picture.to_local(event.position) + _map_size() * 0.5)
+            zone_overlay.queue_redraw()
+            return
         if event.button_index == MOUSE_BUTTON_LEFT:
             if event.pressed and event.shift_pressed:
                 var local := picture.to_local(event.position) + _map_size() * 0.5
@@ -298,5 +312,28 @@ func _unhandled_input(event: InputEvent) -> void:
             _restore_session()
         elif event.keycode == KEY_V:
             show_debug_zones = not show_debug_zones
-            zone_overlay.visible = show_debug_zones
+            zone_overlay.visible = show_debug_zones or editing_zones
+            zone_overlay.queue_redraw()
+        elif event.keycode == KEY_E:
+            editing_zones = not editing_zones
+            draft_vertices.clear()
+            dragging = false
+            zone_overlay.visible = show_debug_zones or editing_zones
+            zone_overlay.queue_redraw()
+            print("Polygon editing: ", editing_zones)
+        elif editing_zones and event.keycode == KEY_ENTER:
+            if draft_vertices.size() >= 3:
+                blocked_zones.append(draft_vertices.duplicate())
+                if ZoneEditor.save_polygons(ZONES_PATH, map_label, blocked_zones):
+                    print("Saved blocked polygon for ", map_label)
+                else:
+                    push_error("Could not save walk zones")
+            draft_vertices.clear()
+            zone_overlay.queue_redraw()
+        elif editing_zones and event.keycode == KEY_BACKSPACE:
+            if draft_vertices.size() > 0:
+                draft_vertices.remove_at(draft_vertices.size() - 1)
+            zone_overlay.queue_redraw()
+        elif editing_zones and event.keycode == KEY_ESCAPE:
+            draft_vertices.clear()
             zone_overlay.queue_redraw()
