@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.6 — 2026-10-12
+- Sistema optativo de polígonos bloqueados por escenario, definidos en un JSON local en coordenadas de imagen.
+- Marcador de exploración con rechazo de movimientos dentro de áreas bloqueadas y deslizamiento aproximado por eje.
+- Atajo C para activar/desactivar estas zonas y cambio automático de configuración al seleccionar otro mapa.
+- Documentación sobre el formato y límites de esta capa auxiliar: no sustituye colisiones originales de PS1.
+- Godot continúa pendiente de validación ejecutable; no se modificó el servidor C#.
+
 ## 0.5.5 — 2026-10-12
 - Conversión por lotes de los fondos TFS originales desde la copia local de PlayStation a PNG, con catálogo JSON.
 - Navegación por mapas importados dentro del visor GDScript mediante PageUp/PageDown.
