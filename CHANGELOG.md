@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.5 — 2026-10-12
+- Conversión por lotes de los fondos TFS originales desde la copia local de PlayStation a PNG, con catálogo JSON.
+- Navegación por mapas importados dentro del visor GDScript mediante PageUp/PageDown.
+- Conservada la compatibilidad con el fondo original individual y la inspección de coordenadas.
+- Registro explícito de archivos que no pudieron convertirse; pruebas Python del catálogo y validación de parámetros.
+- Ignorados los recursos extraídos para evitar su publicación en GitHub.
+- Movimiento/calibración original y modelo 3D del protagonista siguen pendientes.
+
 ## 0.5.4 — 2026-10-12
 - Indexador Python de archivos TFS originales dentro de un BIN PS1 local, sin distribuir sus recursos.
 - Importador de cualquier ruta TFS encontrada en el disco a `map.png` y `map.json` para Godot.
