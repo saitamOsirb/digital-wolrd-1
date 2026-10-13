@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.5 — 2026-10-12
+- Analizador de encabezados candidatos TMD de PlayStation en recursos binarios extraídos localmente.
+- Contraste con referencias `CHDAT/TMD0`, `CHDAT/MTN0`, `CHDAT/MMD0` y `TAMER_MODEL_BUFFER` del código descompilado.
+- Pruebas sintéticas de estructuras TMD, detección de offsets y rechazo de cabeceras inválidas.
+- Documentación de flujo de investigación; la extracción/interpretación del protagonista 3D original aún no está resuelta.
+
 ## 0.6.4 — 2026-10-12
 - Inventario Python de archivos PS1 orientado a identificar posibles recursos de personajes, modelos, texturas y animaciones.
 - Informe JSON local con extensiones y rutas candidatas, sin exportar recursos gráficos protegidos.
