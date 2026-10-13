@@ -16,12 +16,14 @@ const ZoneEditor = preload("res://scripts/map_zone_editor.gd")
 const MapPathfinding = preload("res://scripts/map_pathfinding.gd")
 const ExplorationSave = preload("res://scripts/exploration_save.gd")
 const MapForegrounds = preload("res://scripts/map_foregrounds.gd")
+const TamerSprite = preload("res://scripts/tamer_sprite_preview.gd")
 
 var picture: Sprite2D
 var hint: Label
 var marker: Node2D
 var zone_overlay: Node2D
 var foreground: Sprite2D
+var tamer_sprite: Node2D
 var marker_position := Vector2.ZERO
 var zoom_value := 1.0
 var dragging := false
@@ -54,6 +56,8 @@ func _ready() -> void:
     marker.z_index = 10
     picture.add_child(marker)
     marker.draw.connect(_draw_marker)
+    tamer_sprite = TamerSprite.new()
+    marker.add_child(tamer_sprite)
     foreground = Sprite2D.new()
     foreground.centered = true
     foreground.z_index = 15
@@ -132,6 +136,8 @@ func _draw_zones() -> void:
         zone_overlay.draw_rect(Rect2(box.position + displacement, box.size), Color(0.12, 1.0, 0.7), false, 2.0)
 
 func _draw_marker() -> void:
+    if tamer_sprite != null and tamer_sprite.loaded:
+        return
     marker.draw_circle(Vector2(0, 9), 7, Color(0, 0, 0, 0.5))
     marker.draw_circle(Vector2.ZERO, 7, Color(1, 0.8, 0.18))
     marker.draw_arc(Vector2.ZERO, 9, 0, TAU, 24, Color.BLACK, 2)
@@ -239,6 +245,7 @@ func _process(delta: float) -> void:
         zone_overlay.queue_redraw()
     elif path_step < walking_path.size():
         var target: Vector2 = walking_path[path_step]
+        tamer_sprite.update_motion(target - marker_position, delta)
         if marker_position.distance_to(target) <= MARKER_SPEED * delta:
             marker_position = target
             path_step += 1
@@ -255,6 +262,7 @@ func _process(delta: float) -> void:
             picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
         _update_hint()
     if direction.length_squared() > 0:
+        tamer_sprite.update_motion(direction, delta)
         var offset := direction * MARKER_SPEED * delta
         var goal := (marker_position + offset).clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
         if not collisions_enabled or not WalkZones.is_blocked(goal, blocked_zones):
@@ -272,6 +280,8 @@ func _process(delta: float) -> void:
         if follow_marker:
             picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
         _update_hint()
+    elif path_step >= walking_path.size():
+        tamer_sprite.update_motion(Vector2.ZERO, delta)
 
 func _try_transition() -> void:
     var link := MapTransitions.destination(marker_position, transition_zones)
