@@ -2,6 +2,8 @@ extends Node2D
 # Inspección del fondo original de DW1. Marcador y navegación son DIAGNÓSTICOS,
 # no representan al protagonista ni la cámara/calibración auténticos.
 const ORIGINAL_MAP := "res://assets/demo/map.png"
+const CATALOG_PATH := "res://assets/maps/catalog.json"
+const MAP_BASE := "res://assets/maps/"
 const ORIGINAL_METADATA := "res://assets/demo/map.json"
 const MIN_ZOOM := 0.25
 const MAX_ZOOM := 6.0
@@ -15,6 +17,8 @@ var zoom_value := 1.0
 var dragging := false
 var follow_marker := false
 var map_label := "Mapa original"
+var catalog_maps: Array[Dictionary] = []
+var catalog_index := 0
 
 func _ready() -> void:
     get_viewport().size_changed.connect(_fit_viewport)
@@ -34,6 +38,7 @@ func _ready() -> void:
     hint.add_theme_constant_override("shadow_offset_x", 2)
     hint.add_theme_constant_override("shadow_offset_y", 2)
     add_child(hint)
+    _load_catalog()
     _load_original_map()
 
 func _draw_marker() -> void:
@@ -42,20 +47,53 @@ func _draw_marker() -> void:
     marker.draw_arc(Vector2.ZERO, 9, 0, TAU, 24, Color.BLACK, 2)
     marker.draw_line(Vector2(0, -12), Vector2(0, -22), Color(1, 0.8, 0.18), 2)
 
+func _load_catalog() -> void:
+    if not FileAccess.file_exists(CATALOG_PATH):
+        return
+    var file := FileAccess.open(CATALOG_PATH, FileAccess.READ)
+    if file == null:
+        return
+    var parsed: Variant = JSON.parse_string(file.get_as_text())
+    if not parsed is Dictionary:
+        return
+    var items: Variant = parsed.get("maps")
+    if not items is Array or items.size() > 2000:
+        return
+    for entry in items:
+        if not entry is Dictionary:
+            continue
+        var image_path: Variant = entry.get("image", "")
+        var label: Variant = entry.get("name", "")
+        if image_path is String and label is String and image_path.length() > 0 and label.length() > 0:
+            if ".." not in image_path and not image_path.begins_with("/"):
+                catalog_maps.append({"image": image_path, "name": label})
+
+func _selected_path() -> String:
+    if catalog_maps.is_empty():
+        return ORIGINAL_MAP
+    return MAP_BASE + str(catalog_maps[catalog_index]["image"])
+
+func _change_map(direction: int) -> void:
+    if catalog_maps.is_empty():
+        return
+    catalog_index = posmod(catalog_index + direction, catalog_maps.size())
+    _load_original_map()
+
 func _load_original_map() -> void:
-    if not FileAccess.file_exists(ORIGINAL_MAP):
+    var selected_path := _selected_path()
+    if not FileAccess.file_exists(selected_path):
         hint.text = "MAPA ORIGINAL NO IMPORTADO\nEjecuta: python tools-python/import_original_map.py <BIN> --map TWNA01"
         marker.visible = false
         return
     var image := Image.new()
-    var error := image.load(ProjectSettings.globalize_path(ORIGINAL_MAP))
+    var error := image.load(ProjectSettings.globalize_path(selected_path))
     if error != OK:
         hint.text = "Error de mapa: " + str(error)
         marker.visible = false
         return
     picture.texture = ImageTexture.create_from_image(image)
-    map_label = "Mapa original"
-    if FileAccess.file_exists(ORIGINAL_METADATA):
+    map_label = str(catalog_maps[catalog_index]["name"]) if not catalog_maps.is_empty() else "Mapa original"
+    if catalog_maps.is_empty() and FileAccess.file_exists(ORIGINAL_METADATA):
         var metadata_file := FileAccess.open(ORIGINAL_METADATA, FileAccess.READ)
         if metadata_file != null:
             var parsed: Variant = JSON.parse_string(metadata_file.get_as_text())
@@ -63,6 +101,7 @@ func _load_original_map() -> void:
                 var value: Variant = parsed.get("mapId", "")
                 if value is String and not value.is_empty():
                     map_label = value
+    marker.visible = true
     marker_position = image.get_size() * 0.5
     _update_marker()
     _fit_viewport()
@@ -77,7 +116,7 @@ func _update_marker() -> void:
 func _update_hint() -> void:
     if picture.texture == null:
         return
-    hint.text = "TWNA01 | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "R: encuadrar | F: seguimiento %s | rueda: zoom | arrastrar: mapa" % ("SI" if follow_marker else "NO")
+    hint.text = "TWNA01 | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "PgUp/PgDown: cambiar mapa | R: centrar | F: seguir %s | rueda: zoom" % ("SI" if follow_marker else "NO")
 
 func _process(delta: float) -> void:
     if picture.texture == null:
@@ -137,3 +176,7 @@ func _unhandled_input(event: InputEvent) -> void:
         elif event.keycode == KEY_F:
             follow_marker = not follow_marker
             _update_hint()
+        elif event.keycode == KEY_PAGEUP:
+            _change_map(-1)
+        elif event.keycode == KEY_PAGEDOWN:
+            _change_map(1)
