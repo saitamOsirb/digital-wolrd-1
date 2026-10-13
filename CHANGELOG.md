@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1 — 2026-10-12
+- Descubrimiento real de archivos CHDAT/TMD0, CHDAT/MMD0 y CHDAT/MTN0 mediante el índice ISO9660 del BIN original suministrado localmente.
+- Modo opcional de inspección de cabeceras TMD dentro de archivos de modelos sin exportar recursos comerciales.
+- Informe JSON con rutas presentes, tamaños y offsets candidatos; pruebas unitarias sintéticas y documentación de uso.
+- Todavía falta ejecutar con los archivos reales del usuario y confirmar el modelo, animaciones e integración del protagonista en File City.
+
 ## 0.8.0 — 2026-10-12
 - Pipeline integrado Python TMD + TIM → JSON de escena + páginas PNG PS1 por TPAGE/CLUT, con un solo comando.
 - Visor Godot 3D para construir triángulos experimentales texturizados desde los datos generados localmente.
