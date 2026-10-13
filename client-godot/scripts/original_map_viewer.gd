@@ -17,6 +17,7 @@ const ExplorationSave = preload("res://scripts/exploration_save.gd")
 var picture: Sprite2D
 var hint: Label
 var marker: Node2D
+var zone_overlay: Node2D
 var marker_position := Vector2.ZERO
 var zoom_value := 1.0
 var dragging := false
@@ -28,6 +29,7 @@ var blocked_zones: Array[PackedVector2Array] = []
 var collisions_enabled := true
 var transition_zones: Array[Dictionary] = []
 var transition_cooldown := 0.0
+var show_debug_zones := false
 
 func _ready() -> void:
     get_viewport().size_changed.connect(_fit_viewport)
@@ -35,6 +37,11 @@ func _ready() -> void:
     picture.centered = true
     picture.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
     add_child(picture)
+    zone_overlay = Node2D.new()
+    zone_overlay.z_index = 5
+    picture.add_child(zone_overlay)
+    zone_overlay.draw.connect(_draw_zones)
+    zone_overlay.visible = false
     marker = Node2D.new()
     marker.z_index = 10
     picture.add_child(marker)
@@ -84,6 +91,23 @@ func _restore_session() -> void:
     if follow_marker:
         picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
     _update_hint()
+
+func _draw_zones() -> void:
+    if picture.texture == null:
+        return
+    var displacement := -_map_size() * 0.5
+    for polygon in blocked_zones:
+        var shifted := PackedVector2Array()
+        for point in polygon:
+            shifted.append(point + displacement)
+        if shifted.size() >= 3:
+            zone_overlay.draw_colored_polygon(shifted, Color(0.95, 0.12, 0.12, 0.22))
+            for i in range(shifted.size()):
+                zone_overlay.draw_line(shifted[i], shifted[(i + 1) % shifted.size()], Color(1.0, 0.18, 0.18), 2.0)
+    for link in transition_zones:
+        var box: Rect2 = link["rect"]
+        zone_overlay.draw_rect(Rect2(box.position + displacement, box.size), Color(0.1, 0.95, 0.7, 0.3), true)
+        zone_overlay.draw_rect(Rect2(box.position + displacement, box.size), Color(0.12, 1.0, 0.7), false, 2.0)
 
 func _draw_marker() -> void:
     marker.draw_circle(Vector2(0, 9), 7, Color(0, 0, 0, 0.5))
@@ -148,6 +172,7 @@ func _load_original_map() -> void:
     marker.visible = true
     blocked_zones = WalkZones.load_polygons(ZONES_PATH, map_label)
     transition_zones = MapTransitions.load_links(LINKS_PATH, map_label)
+    zone_overlay.queue_redraw()
     marker_position = image.get_size() * 0.5
     _update_marker()
     _fit_viewport()
@@ -162,7 +187,7 @@ func _update_marker() -> void:
 func _update_hint() -> void:
     if picture.texture == null:
         return
-    hint.text = map_label + " | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "PgUp/PgDown: mapa | F: seguir %s | C: zonas %s | F5: guardar | F9: cargar" % [("SI" if follow_marker else "NO"), ("ON" if collisions_enabled else "OFF")]
+    hint.text = map_label + " | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "PgUp/PgDown: mapa | F: seguir %s | C: colisión %s | V: ver zonas" % [("SI" if follow_marker else "NO"), ("ON" if collisions_enabled else "OFF")]
 
 func _process(delta: float) -> void:
     if picture.texture == null:
@@ -271,3 +296,7 @@ func _unhandled_input(event: InputEvent) -> void:
             _save_session()
         elif event.keycode == KEY_F9:
             _restore_session()
+        elif event.keycode == KEY_V:
+            show_debug_zones = not show_debug_zones
+            zone_overlay.visible = show_debug_zones
+            zone_overlay.queue_redraw()
