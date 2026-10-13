@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 — 2026-10-12
+- Primer conversor estructural TMD a nube de vértices 3D en JSON, con verificación de punteros relativos y límites.
+- Escena Godot GDScript para previsualizar vértices importados de forma local, separada del visualizador de escenarios.
+- Pruebas sintéticas de lectura de vértices y validación de binarios incompletos.
+- Documentación para localizar TMD candidatos y cargar la vista 3D.
+- Esta fase NO reconstruye caras, texturas, esqueleto ni animaciones; la identidad del modelo original sigue por comprobar.
+- Pruebas integradas Godot pendientes.
+
 ## 0.6.5 — 2026-10-12
 - Analizador de encabezados candidatos TMD de PlayStation en recursos binarios extraídos localmente.
 - Contraste con referencias `CHDAT/TMD0`, `CHDAT/MTN0`, `CHDAT/MMD0` y `TAMER_MODEL_BUFFER` del código descompilado.
