@@ -7,12 +7,12 @@ import argparse
 import json
 from pathlib import Path
 
-def convert(document: dict, scale: float = 0.002) -> tuple[str, str]:
+def convert(document: dict, scale: float = 0.002, mtl_name: str = "model.mtl") -> tuple[str, str]:
     if document.get("format") != "psx-tmd-experimental-unlit-mesh":
         raise ValueError("Unsupported mesh document")
     if not 0 < scale <= 1:
         raise ValueError("scale must be in (0,1]")
-    lines = ["# Experimental TMD mesh: no textures, rig or animation", "mtllib model.mtl"]
+    lines = ["# Experimental TMD mesh: no textures, rig or animation", f"mtllib {mtl_name}"]
     material_lines = ["# Flat per-face materials reconstructed from decoded RGB values"]
     materials: set[tuple[int, int, int]] = set()
     vertex_offset = 0
@@ -53,11 +53,10 @@ def main() -> None:
     args = cli.parse_args()
     if args.output.suffix.lower() != ".obj":
         cli.error("--output must be .obj")
-    obj, mtl = convert(json.loads(args.input.read_text(encoding="utf-8")), args.scale)
+    obj, mtl = convert(json.loads(args.input.read_text(encoding="utf-8")), args.scale, args.output.with_suffix(".mtl").name)
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    # Use model.mtl for a stable name referenced by the OBJ document.
     args.output.write_text(obj, encoding="utf-8")
-    (args.output.parent / "model.mtl").write_text(mtl, encoding="utf-8")
+    args.output.with_suffix(".mtl").write_text(mtl, encoding="utf-8")
     print("Wrote OBJ and MTL:", args.output)
 
 if __name__ == "__main__":
