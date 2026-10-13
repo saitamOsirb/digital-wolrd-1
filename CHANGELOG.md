@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.3 — 2026-10-12
+- Controlador GDScript para visualizar una hoja local opcional de animación 2D del protagonista sobre fondos originales.
+- Direcciones abajo/izquierda/derecha/arriba, 4 frames por dirección y cambio a pose de reposo al detenerse.
+- Integración con movimiento por teclado y navegación por clic derecho; se conserva el marcador cuando faltan sprites.
+- Protección de recursos locales del personaje en `.gitignore` y documentación de formato y limitaciones.
+- La extracción del modelo/animaciones 3D originales de PS1 sigue pendiente; ejecución en Godot no validada.
+
 ## 0.6.2 — 2026-10-12
 - Soporte de capas de primer plano transparentes por escenario en Godot, por encima del marcador diagnóstico.
 - Carga local de PNG RGBA según el identificador del mapa, con comprobación de dimensiones y filtrado nearest-neighbor.
