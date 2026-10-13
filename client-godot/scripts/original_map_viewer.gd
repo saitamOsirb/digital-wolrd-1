@@ -8,6 +8,8 @@ const ORIGINAL_METADATA := "res://assets/demo/map.json"
 const MIN_ZOOM := 0.25
 const MAX_ZOOM := 6.0
 const MARKER_SPEED := 145.0
+const WalkZones = preload("res://scripts/map_walk_zones.gd")
+const ZONES_PATH := "res://assets/maps/walk_zones.json"
 
 var picture: Sprite2D
 var hint: Label
@@ -19,6 +21,8 @@ var follow_marker := false
 var map_label := "Mapa original"
 var catalog_maps: Array[Dictionary] = []
 var catalog_index := 0
+var blocked_zones: Array[PackedVector2Array] = []
+var collisions_enabled := true
 
 func _ready() -> void:
     get_viewport().size_changed.connect(_fit_viewport)
@@ -102,6 +106,7 @@ func _load_original_map() -> void:
                 if value is String and not value.is_empty():
                     map_label = value
     marker.visible = true
+    blocked_zones = WalkZones.load_polygons(ZONES_PATH, map_label)
     marker_position = image.get_size() * 0.5
     _update_marker()
     _fit_viewport()
@@ -116,7 +121,7 @@ func _update_marker() -> void:
 func _update_hint() -> void:
     if picture.texture == null:
         return
-    hint.text = "TWNA01 | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "PgUp/PgDown: cambiar mapa | R: centrar | F: seguir %s | rueda: zoom" % ("SI" if follow_marker else "NO")
+    hint.text = map_label + " | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "PgUp/PgDown: mapa | R: centrar | F: seguir %s | C: zonas %s" % [("SI" if follow_marker else "NO"), ("ON" if collisions_enabled else "OFF")]
 
 func _process(delta: float) -> void:
     if picture.texture == null:
@@ -133,8 +138,17 @@ func _process(delta: float) -> void:
     if direction.length_squared() > 1:
         direction = direction.normalized()
     if direction.length_squared() > 0:
-        marker_position += direction * MARKER_SPEED * delta
-        marker_position = marker_position.clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+        var offset := direction * MARKER_SPEED * delta
+        var goal := (marker_position + offset).clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+        if not collisions_enabled or not WalkZones.is_blocked(goal, blocked_zones):
+            marker_position = goal
+        else:
+            var horizontal := Vector2(goal.x, marker_position.y)
+            var vertical := Vector2(marker_position.x, goal.y)
+            if not WalkZones.is_blocked(horizontal, blocked_zones):
+                marker_position = horizontal
+            elif not WalkZones.is_blocked(vertical, blocked_zones):
+                marker_position = vertical
         _update_marker()
         if follow_marker:
             picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
@@ -156,7 +170,9 @@ func _unhandled_input(event: InputEvent) -> void:
         if event.button_index == MOUSE_BUTTON_LEFT:
             if event.pressed and event.shift_pressed:
                 var local := picture.to_local(event.position) + _map_size() * 0.5
-                marker_position = local.clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+                var goal := local.clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+                if not collisions_enabled or not WalkZones.is_blocked(goal, blocked_zones):
+                    marker_position = goal
                 _update_marker()
                 _update_hint()
                 dragging = false
@@ -180,3 +196,6 @@ func _unhandled_input(event: InputEvent) -> void:
             _change_map(-1)
         elif event.keycode == KEY_PAGEDOWN:
             _change_map(1)
+        elif event.keycode == KEY_C:
+            collisions_enabled = not collisions_enabled
+            _update_hint()
