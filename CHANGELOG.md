@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.7 — 2026-10-12
+- Transiciones configurables entre escenarios originales ya importados, mediante zonas rectangulares y puntos de aparición.
+- Carga de `assets/maps/transitions.json` por mapa y cambio automático de fondo al entrar en una zona.
+- Protección básica contra ciclos inmediatos y aviso cuando el mapa destino no está importado.
+- Documentación de configuración; estas transiciones son provisionales y no equivalen a los warps PS1 originales.
+- Pendiente validación ejecutando Godot, extracción de transiciones originales y protagonista 3D.
+
 ## 0.5.6 — 2026-10-12
 - Sistema optativo de polígonos bloqueados por escenario, definidos en un JSON local en coordenadas de imagen.
 - Marcador de exploración con rechazo de movimientos dentro de áreas bloqueadas y deslizamiento aproximado por eje.
