@@ -19,3 +19,6 @@ __pycache__/
 
 # Locally generated or imported map previews
 client-godot/assets/demo/
+
+# Original extracted map backgrounds and manifests (local only)
+client-godot/assets/maps/
