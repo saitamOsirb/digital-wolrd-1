@@ -10,6 +10,8 @@ const MAX_ZOOM := 6.0
 const MARKER_SPEED := 145.0
 const WalkZones = preload("res://scripts/map_walk_zones.gd")
 const ZONES_PATH := "res://assets/maps/walk_zones.json"
+const MapTransitions = preload("res://scripts/map_transitions.gd")
+const LINKS_PATH := "res://assets/maps/transitions.json"
 
 var picture: Sprite2D
 var hint: Label
@@ -23,6 +25,8 @@ var catalog_maps: Array[Dictionary] = []
 var catalog_index := 0
 var blocked_zones: Array[PackedVector2Array] = []
 var collisions_enabled := true
+var transition_zones: Array[Dictionary] = []
+var transition_cooldown := 0.0
 
 func _ready() -> void:
     get_viewport().size_changed.connect(_fit_viewport)
@@ -107,6 +111,7 @@ func _load_original_map() -> void:
                     map_label = value
     marker.visible = true
     blocked_zones = WalkZones.load_polygons(ZONES_PATH, map_label)
+    transition_zones = MapTransitions.load_links(LINKS_PATH, map_label)
     marker_position = image.get_size() * 0.5
     _update_marker()
     _fit_viewport()
@@ -126,6 +131,7 @@ func _update_hint() -> void:
 func _process(delta: float) -> void:
     if picture.texture == null:
         return
+    transition_cooldown = maxf(0.0, transition_cooldown - delta)
     var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
     if Input.is_key_pressed(KEY_A):
         direction.x = -1
@@ -149,10 +155,36 @@ func _process(delta: float) -> void:
                 marker_position = horizontal
             elif not WalkZones.is_blocked(vertical, blocked_zones):
                 marker_position = vertical
+        if transition_cooldown <= 0.0:
+            _try_transition()
         _update_marker()
         if follow_marker:
             picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
         _update_hint()
+
+func _try_transition() -> void:
+    var link := MapTransitions.destination(marker_position, transition_zones)
+    if link.is_empty():
+        return
+    var requested: String = link["to"]
+    var index := -1
+    for i in range(catalog_maps.size()):
+        if str(catalog_maps[i]["name"]) == requested:
+            index = i
+            break
+    if index < 0:
+        push_warning("Destination map not imported: " + requested)
+        transition_cooldown = 1.0
+        return
+    var spawn: Vector2 = link["spawn"]
+    catalog_index = index
+    _load_original_map()
+    marker_position = spawn.clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+    _update_marker()
+    transition_cooldown = 1.0
+    if follow_marker:
+        picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
+    _update_hint()
 
 func _fit_viewport() -> void:
     if picture == null or picture.texture == null:
