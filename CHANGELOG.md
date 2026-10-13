@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1 — 2026-10-12
+- Inspector Python de paquetes de primitivas TMD: recorre registros y clasifica modos comunes de triángulos y cuadriláteros.
+- Validación de límites y longitudes sin fabricar caras ni UV no verificadas.
+- CLI para exportar un informe JSON local y pruebas con estructuras sintéticas.
+- Documentación sobre límites de la interpretación, pendiente de muestras reales y pruebas integradas en Godot.
+
 ## 0.7.0 — 2026-10-12
 - Primer conversor estructural TMD a nube de vértices 3D en JSON, con verificación de punteros relativos y límites.
 - Escena Godot GDScript para previsualizar vértices importados de forma local, separada del visualizador de escenarios.
