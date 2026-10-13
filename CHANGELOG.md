@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.4 — 2026-10-12
+- Inventario Python de archivos PS1 orientado a identificar posibles recursos de personajes, modelos, texturas y animaciones.
+- Informe JSON local con extensiones y rutas candidatas, sin exportar recursos gráficos protegidos.
+- Pruebas unitarias sintéticas de clasificación de archivos y documentación del alcance.
+- Este inventario no extrae el modelo del protagonista; la identificación binaria auténtica y conversión a Godot siguen pendientes.
+
 ## 0.6.3 — 2026-10-12
 - Controlador GDScript para visualizar una hoja local opcional de animación 2D del protagonista sobre fondos originales.
 - Direcciones abajo/izquierda/derecha/arriba, 4 frames por dirección y cambio a pose de reposo al detenerse.
