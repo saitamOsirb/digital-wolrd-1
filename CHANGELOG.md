@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.9 — 2026-10-12
+- Capa visual de depuración de polígonos bloqueados (rojo) y zonas de transición (verde) sobre el fondo PS1 importado.
+- Atajo V para mostrar/ocultar áreas, manteniendo zoom, desplazamiento y cambio de escenario.
+- La superposición reutiliza las zonas configurables locales sin alterar las imágenes originales.
+- Pendiente ejecutar y validar el cliente Godot; estos polígonos no constituyen colisiones auténticas del juego.
+
 ## 0.5.8 — 2026-10-12
 - Guardado local de exploración desde Godot: mapa seleccionado, posición del marcador, seguimiento y zoom.
 - Recuperación al iniciar el visualizador y atajos F5/F9 para guardar/restaurar.
