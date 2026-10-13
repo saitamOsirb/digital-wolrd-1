@@ -15,11 +15,13 @@ const LINKS_PATH := "res://assets/maps/transitions.json"
 const ZoneEditor = preload("res://scripts/map_zone_editor.gd")
 const MapPathfinding = preload("res://scripts/map_pathfinding.gd")
 const ExplorationSave = preload("res://scripts/exploration_save.gd")
+const MapForegrounds = preload("res://scripts/map_foregrounds.gd")
 
 var picture: Sprite2D
 var hint: Label
 var marker: Node2D
 var zone_overlay: Node2D
+var foreground: Sprite2D
 var marker_position := Vector2.ZERO
 var zoom_value := 1.0
 var dragging := false
@@ -52,6 +54,11 @@ func _ready() -> void:
     marker.z_index = 10
     picture.add_child(marker)
     marker.draw.connect(_draw_marker)
+    foreground = Sprite2D.new()
+    foreground.centered = true
+    foreground.z_index = 15
+    foreground.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+    picture.add_child(foreground)
     hint = Label.new()
     hint.position = Vector2(16, 12)
     hint.z_index = 20
@@ -185,6 +192,10 @@ func _load_original_map() -> void:
                 if value is String and not value.is_empty():
                     map_label = value
     marker.visible = true
+    foreground.texture = MapForegrounds.load_overlay(map_label)
+    if foreground.texture != null and foreground.texture.get_size() != picture.texture.get_size():
+        push_warning("Foreground dimensions do not match background: " + map_label)
+        foreground.texture = null
     blocked_zones = WalkZones.load_polygons(ZONES_PATH, map_label)
     transition_zones = MapTransitions.load_links(LINKS_PATH, map_label)
     draft_vertices.clear()
