@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0 — 2026-10-12
+- Editor de zonas bloqueadas directamente sobre el fondo original importado en Godot: E para editar, clic para vértices, Enter para guardar.
+- Edición de polígonos con Backspace para deshacer vértices y Esc para cancelar el polígono en curso.
+- Persistencia por mapa en `walk_zones.json`, preservando los polígonos creados en otros escenarios.
+- Superposición diagnóstica en el visualizador y documentación del flujo de autoría.
+- Esta herramienta manual no equivale a colisiones originales de PS1; pendiente ejecutar y validar en Godot.
+
 ## 0.5.9 — 2026-10-12
 - Capa visual de depuración de polígonos bloqueados (rojo) y zonas de transición (verde) sobre el fondo PS1 importado.
 - Atajo V para mostrar/ocultar áreas, manteniendo zoom, desplazamiento y cambio de escenario.
