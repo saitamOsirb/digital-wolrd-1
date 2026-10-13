@@ -38,7 +38,7 @@ class MaterialBuildTests(unittest.TestCase):
             out = Path(tmp) / "materials"
             data = test_model()
             # Override primitive mode FT3 to unsupported value.
-            data = data[:68] + bytes([0x20]) + data[69:]
+            data = data[:67] + bytes([0x20]) + data[68:]
             with self.assertRaises(ValueError):
                 build(data, [tim()], out)
             self.assertFalse(out.exists())
