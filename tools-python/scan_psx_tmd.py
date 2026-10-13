@@ -16,7 +16,7 @@ def scan_tmd(data: bytes, max_hits: int = 200) -> list[dict]:
     if max_hits < 1:
         raise ValueError("max_hits must be positive")
     hits = []
-    for offset in range(0, len(data) - 12, 4):
+    for offset in range(0, len(data) - 11, 4):
         if data[offset:offset + 4] != b"\x41\x00\x00\x00":
             continue
         _, flags, objects = struct.unpack_from("<III", data, offset)
