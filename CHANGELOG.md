@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2 — 2026-10-13
+- Auditoría integral de archivos CHDAT directamente desde un BIN de PlayStation local: indexación de candidatos TMD/MMD/MTN y análisis de compatibilidad con los conversores existentes.
+- Informe JSON por archivo con detección de firmas, vértices, caras texturizadas compatibles y causas de fallo sin afirmar identidad del protagonista.
+- Pruebas unitarias sintéticas de resultados parciales, errores de lectura y límites de búsqueda; instrucciones completas para Windows.
+- Pendiente: ejecutar la auditoría sobre la copia real del juego, identificar los recursos del protagonista, decodificar animaciones y validar la integración con File City en Godot.
+
 ## 0.8.1 — 2026-10-12
 - Descubrimiento real de archivos CHDAT/TMD0, CHDAT/MMD0 y CHDAT/MTN0 mediante el índice ISO9660 del BIN original suministrado localmente.
 - Modo opcional de inspección de cabeceras TMD dentro de archivos de modelos sin exportar recursos comerciales.
