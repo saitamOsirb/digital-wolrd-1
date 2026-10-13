@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.2 — 2026-10-12
+- Soporte de capas de primer plano transparentes por escenario en Godot, por encima del marcador diagnóstico.
+- Carga local de PNG RGBA según el identificador del mapa, con comprobación de dimensiones y filtrado nearest-neighbor.
+- Se conserva la escala y desplazamiento del fondo sin publicar recursos comerciales en Git.
+- Las máscaras son opcionales y manuales; no se han extraído las oclusiones originales del juego. Pendiente verificar ejecución Godot.
+
 ## 0.6.1 — 2026-10-12
 - Navegación por clic derecho en fondos originales: cálculo de rutas con `AStarGrid2D` sobre celdas de 16 píxeles.
 - Celdas bloqueadas basadas en los polígonos locales configurables, con trazado de la ruta en la superposición de depuración.
