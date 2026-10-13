@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.9 — 2026-10-12
+- Herramienta Python que exporta por lotes todas las combinaciones TPAGE/CLUT de caras TMD FT3/FT4 compatibles.
+- Para cada combinación genera PNG de VRAM, malla OBJ con UV y material MTL; incluye manifest.json de grupos y paquetes omitidos.
+- Pruebas sintéticas de generación de artefactos y rechazo de modelos sin caras texturizadas reconocibles.
+- Sigue pendiente comprobar recursos auténticos del protagonista, formatos de animación e integración del modelo en File City.
+
 ## 0.7.8 — 2026-10-12
 - Exportador experimental OBJ/MTL texturizado para caras FT3/FT4 extraídas de TMD, usando UV y página PNG VRAM.
 - Filtro estricto por TPAGE+CLUT y coordenadas UV normalizadas por página de 256×256.
