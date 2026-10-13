@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.5 — 2026-10-12
+- Decodificación de campos TPAGE y CLUT del GPU PlayStation a coordenadas de páginas de textura, profundidad de color y posición de paleta.
+- Anotación de informes UV experimentales TMD con metadatos GPU para preparar la reconstrucción de VRAM.
+- Pruebas sintéticas de decodificación de bitfields y validación de valores fuera de rango.
+- No se extraen todavía las texturas ni el protagonista real; conversión de TIM a VRAM y validación integrada pendientes.
+
 ## 0.7.4 — 2026-10-12
 - Inspector Python experimental de primitivas TMD texturizadas sin iluminación (FT3/FT4).
 - Extracción de UV crudas, CLUT, TPAGE, color e índices de vértices; modos no compatibles registrados sin inventar geometría.
