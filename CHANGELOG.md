@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.6 — 2026-10-12
+- Memoria VRAM PS1 experimental (1024×512 palabras de 16 bits) con carga de bloques TIM y CLUT en coordenadas originales.
+- Muestreo de texeles de 4, 8 y 16 bpp mediante TPAGE, CLUT y UV, entregando RGBA para futuros materiales.
+- Pruebas sintéticas de color, paletas y validación de límites y documentación de la nueva API.
+- Pendientes de validación: cargas reales de texturas del protagonista, modo de blending, asociación de UV a mallas y ejecución en Godot.
+
 ## 0.7.5 — 2026-10-12
 - Decodificación de campos TPAGE y CLUT del GPU PlayStation a coordenadas de páginas de textura, profundidad de color y posición de paleta.
 - Anotación de informes UV experimentales TMD con metadatos GPU para preparar la reconstrucción de VRAM.
