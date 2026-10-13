@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.1 — 2026-10-12
+- Navegación por clic derecho en fondos originales: cálculo de rutas con `AStarGrid2D` sobre celdas de 16 píxeles.
+- Celdas bloqueadas basadas en los polígonos locales configurables, con trazado de la ruta en la superposición de depuración.
+- Desplazamiento progresivo del marcador por la ruta y cancelación al usar WASD/flechas o cambiar de mapa.
+- Documentadas las limitaciones: navegación provisional 2D, no es el pathfinding auténtico de PlayStation.
+- Cambios pendientes de validación en ejecución con Godot 4.
+
 ## 0.6.0 — 2026-10-12
 - Editor de zonas bloqueadas directamente sobre el fondo original importado en Godot: E para editar, clic para vértices, Enter para guardar.
 - Edición de polígonos con Backspace para deshacer vértices y Esc para cancelar el polígono en curso.
