@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 — 2026-10-12
+- Pipeline integrado Python TMD + TIM → JSON de escena + páginas PNG PS1 por TPAGE/CLUT, con un solo comando.
+- Visor Godot 3D para construir triángulos experimentales texturizados desde los datos generados localmente.
+- Pruebas sintéticas del pipeline y documentación de los componentes faltantes para recuperar al protagonista real.
+- No representa el protagonista original completo: falta identificar modelo auténtico, animaciones MMD/MTN, rig, cámara y colisiones PS1. Ejecución integrada de Godot pendiente.
+
 ## 0.7.9 — 2026-10-12
 - Herramienta Python que exporta por lotes todas las combinaciones TPAGE/CLUT de caras TMD FT3/FT4 compatibles.
 - Para cada combinación genera PNG de VRAM, malla OBJ con UV y material MTL; incluye manifest.json de grupos y paquetes omitidos.
