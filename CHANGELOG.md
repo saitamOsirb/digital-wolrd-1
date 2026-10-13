@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.4 — 2026-10-12
+- Inspector Python experimental de primitivas TMD texturizadas sin iluminación (FT3/FT4).
+- Extracción de UV crudas, CLUT, TPAGE, color e índices de vértices; modos no compatibles registrados sin inventar geometría.
+- Pruebas sintéticas de triángulos, cuadriláteros, banderas no admitidas y buffers truncados.
+- Documentación sobre el espacio VRAM y la recuperación pendiente de texturas, protagonista 3D y animaciones; integración Godot sin validar.
+
 ## 0.7.3 — 2026-10-12
 - Exportación Wavefront OBJ/MTL de las superficies experimentales TMD previamente decodificadas, para inspección en Blender y Godot.
 - Materiales planos derivados de RGB, objetos separados, cambio de eje y orientación de caras, con validación de índices.
