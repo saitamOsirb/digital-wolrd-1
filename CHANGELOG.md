@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.8 — 2026-10-12
+- Guardado local de exploración desde Godot: mapa seleccionado, posición del marcador, seguimiento y zoom.
+- Recuperación al iniciar el visualizador y atajos F5/F9 para guardar/restaurar.
+- Validación de formato y valores del guardado para evitar restaurar coordenadas corruptas.
+- Sin cambios al backend C# ni distribución de recursos gráficos comerciales.
+- La exploración continúa siendo diagnóstica, no una recreación jugable fiel del original; pendiente de pruebas en Godot.
+
 ## 0.5.7 — 2026-10-12
 - Transiciones configurables entre escenarios originales ya importados, mediante zonas rectangulares y puntos de aparición.
 - Carga de `assets/maps/transitions.json` por mapa y cambio automático de fondo al entrar en una zona.
