@@ -12,6 +12,7 @@ const WalkZones = preload("res://scripts/map_walk_zones.gd")
 const ZONES_PATH := "res://assets/maps/walk_zones.json"
 const MapTransitions = preload("res://scripts/map_transitions.gd")
 const LINKS_PATH := "res://assets/maps/transitions.json"
+const ExplorationSave = preload("res://scripts/exploration_save.gd")
 
 var picture: Sprite2D
 var hint: Label
@@ -48,6 +49,41 @@ func _ready() -> void:
     add_child(hint)
     _load_catalog()
     _load_original_map()
+    _restore_session()
+
+func _save_session() -> void:
+    if picture.texture == null:
+        return
+    if ExplorationSave.write_state(map_label, marker_position, follow_marker, zoom_value):
+        print("Exploration position saved: ", map_label)
+
+func _restore_session() -> void:
+    var state: Dictionary = ExplorationSave.read_state()
+    if state.is_empty():
+        return
+    var destination_id: String = state["mapId"]
+    if not catalog_maps.is_empty():
+        var found := -1
+        for i in range(catalog_maps.size()):
+            if str(catalog_maps[i]["name"]) == destination_id:
+                found = i
+                break
+        if found < 0:
+            return
+        catalog_index = found
+        _load_original_map()
+    elif map_label != destination_id:
+        return
+    if picture.texture == null:
+        return
+    marker_position = (state["position"] as Vector2).clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+    follow_marker = state["follow"]
+    zoom_value = state["zoom"]
+    picture.scale = Vector2.ONE * zoom_value
+    _update_marker()
+    if follow_marker:
+        picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
+    _update_hint()
 
 func _draw_marker() -> void:
     marker.draw_circle(Vector2(0, 9), 7, Color(0, 0, 0, 0.5))
@@ -126,7 +162,7 @@ func _update_marker() -> void:
 func _update_hint() -> void:
     if picture.texture == null:
         return
-    hint.text = map_label + " | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "PgUp/PgDown: mapa | R: centrar | F: seguir %s | C: zonas %s" % [("SI" if follow_marker else "NO"), ("ON" if collisions_enabled else "OFF")]
+    hint.text = map_label + " | Fondo original PS1 | marcador de prueba (NO jugador real)\n" + "X: %.0f Y: %.0f | WASD/flechas: mover | Shift+clic: ubicar\n" % [marker_position.x, marker_position.y] + "PgUp/PgDown: mapa | F: seguir %s | C: zonas %s | F5: guardar | F9: cargar" % [("SI" if follow_marker else "NO"), ("ON" if collisions_enabled else "OFF")]
 
 func _process(delta: float) -> void:
     if picture.texture == null:
@@ -231,3 +267,7 @@ func _unhandled_input(event: InputEvent) -> void:
         elif event.keycode == KEY_C:
             collisions_enabled = not collisions_enabled
             _update_hint()
+        elif event.keycode == KEY_F5:
+            _save_session()
+        elif event.keycode == KEY_F9:
+            _restore_session()
