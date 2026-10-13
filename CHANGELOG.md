@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.3 — 2026-10-12
+- Exportación Wavefront OBJ/MTL de las superficies experimentales TMD previamente decodificadas, para inspección en Blender y Godot.
+- Materiales planos derivados de RGB, objetos separados, cambio de eje y orientación de caras, con validación de índices.
+- Pruebas sintéticas de formatos, caras y materiales y documentación de flujo de conversión local.
+- Sigue pendiente identificar y recuperar el modelo completo del protagonista, sus UV, texturas y animaciones; validación integrada pendiente.
+
 ## 0.7.2 — 2026-10-12
 - Exportador experimental de caras TMD planas sin textura: triángulos y cuadriláteros de paquetes sin iluminación compatibles.
 - Escena Godot independiente que construye triángulos 3D coloreados desde JSON importado localmente.
