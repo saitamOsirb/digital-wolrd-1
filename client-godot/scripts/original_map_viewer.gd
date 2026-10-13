@@ -13,6 +13,7 @@ const ZONES_PATH := "res://assets/maps/walk_zones.json"
 const MapTransitions = preload("res://scripts/map_transitions.gd")
 const LINKS_PATH := "res://assets/maps/transitions.json"
 const ZoneEditor = preload("res://scripts/map_zone_editor.gd")
+const MapPathfinding = preload("res://scripts/map_pathfinding.gd")
 const ExplorationSave = preload("res://scripts/exploration_save.gd")
 
 var picture: Sprite2D
@@ -33,6 +34,8 @@ var transition_cooldown := 0.0
 var show_debug_zones := false
 var editing_zones := false
 var draft_vertices := PackedVector2Array()
+var walking_path := PackedVector2Array()
+var path_step := 0
 
 func _ready() -> void:
     get_viewport().size_changed.connect(_fit_viewport)
@@ -113,6 +116,9 @@ func _draw_zones() -> void:
             zone_overlay.draw_circle(point, 3.0, Color.YELLOW)
             if i > 0:
                 zone_overlay.draw_line(draft_vertices[i - 1] + displacement, point, Color.YELLOW, 2.0)
+    if walking_path.size() > 0:
+        for i in range(1, walking_path.size()):
+            zone_overlay.draw_line(walking_path[i - 1] + displacement, walking_path[i] + displacement, Color(0.2, 0.55, 1.0, 0.9), 2.0)
     for link in transition_zones:
         var box: Rect2 = link["rect"]
         zone_overlay.draw_rect(Rect2(box.position + displacement, box.size), Color(0.1, 0.95, 0.7, 0.3), true)
@@ -182,6 +188,8 @@ func _load_original_map() -> void:
     blocked_zones = WalkZones.load_polygons(ZONES_PATH, map_label)
     transition_zones = MapTransitions.load_links(LINKS_PATH, map_label)
     draft_vertices.clear()
+    walking_path.clear()
+    path_step = 0
     zone_overlay.queue_redraw()
     marker_position = image.get_size() * 0.5
     _update_marker()
@@ -214,6 +222,27 @@ func _process(delta: float) -> void:
         direction.y = 1
     if direction.length_squared() > 1:
         direction = direction.normalized()
+    if direction.length_squared() > 0:
+        walking_path.clear()
+        path_step = 0
+        zone_overlay.queue_redraw()
+    elif path_step < walking_path.size():
+        var target: Vector2 = walking_path[path_step]
+        if marker_position.distance_to(target) <= MARKER_SPEED * delta:
+            marker_position = target
+            path_step += 1
+            if path_step >= walking_path.size():
+                walking_path.clear()
+                path_step = 0
+                zone_overlay.queue_redraw()
+        else:
+            marker_position = marker_position.move_toward(target, MARKER_SPEED * delta)
+        _update_marker()
+        if transition_cooldown <= 0.0:
+            _try_transition()
+        if follow_marker:
+            picture.position = get_viewport_rect().size * 0.5 - marker.position * zoom_value
+        _update_hint()
     if direction.length_squared() > 0:
         var offset := direction * MARKER_SPEED * delta
         var goal := (marker_position + offset).clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
@@ -251,6 +280,8 @@ func _try_transition() -> void:
     catalog_index = index
     _load_original_map()
     marker_position = spawn.clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+    walking_path.clear()
+    path_step = 0
     _update_marker()
     transition_cooldown = 1.0
     if follow_marker:
@@ -270,6 +301,15 @@ func _unhandled_input(event: InputEvent) -> void:
     if picture.texture == null:
         return
     if event is InputEventMouseButton:
+        if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and not editing_zones:
+            var target := (picture.to_local(event.position) + _map_size() * 0.5).clamp(Vector2.ZERO, _map_size() - Vector2.ONE)
+            var obstacles: Array[PackedVector2Array] = blocked_zones if collisions_enabled else []
+            walking_path = MapPathfinding.find_path(marker_position, target, _map_size(), obstacles)
+            path_step = 1 if walking_path.size() > 1 else 0
+            if walking_path.size() == 1:
+                walking_path.clear()
+            zone_overlay.queue_redraw()
+            return
         if editing_zones and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
             draft_vertices.append(picture.to_local(event.position) + _map_size() * 0.5)
             zone_overlay.queue_redraw()
