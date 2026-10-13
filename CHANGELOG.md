@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.8 — 2026-10-12
+- Exportador experimental OBJ/MTL texturizado para caras FT3/FT4 extraídas de TMD, usando UV y página PNG VRAM.
+- Filtro estricto por TPAGE+CLUT y coordenadas UV normalizadas por página de 256×256.
+- Pruebas sintéticas de exportación, selección de página y comprobación de índices, más documentación del flujo de importación.
+- El protagonista original no está todavía reconstruido ni integrado en File City; pruebas con recursos reales y Godot pendientes.
+
 ## 0.7.7 — 2026-10-12
 - Exportador PNG de páginas de textura GPU PS1 de 256×256 utilizando los TIM cargados en VRAM local.
 - Muestreo de 4/8/16 bpp por TPAGE/CLUT/UV y CLI para importar varios TIM en orden.
