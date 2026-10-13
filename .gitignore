@@ -22,3 +22,6 @@ client-godot/assets/demo/
 
 # Original extracted map backgrounds and manifests (local only)
 client-godot/assets/maps/
+
+# Locally imported character frames from user-provided assets
+client-godot/assets/characters/
