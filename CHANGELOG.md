@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.7 — 2026-10-12
+- Exportador PNG de páginas de textura GPU PS1 de 256×256 utilizando los TIM cargados en VRAM local.
+- Muestreo de 4/8/16 bpp por TPAGE/CLUT/UV y CLI para importar varios TIM en orden.
+- Pruebas sintéticas de contenido PNG y rechazo de profundidad de textura inválida.
+- Sigue pendiente verificar la secuencia de TIM reales y conectar los materiales texturizados con las mallas en Godot.
+
 ## 0.7.6 — 2026-10-12
 - Memoria VRAM PS1 experimental (1024×512 palabras de 16 bits) con carga de bloques TIM y CLUT en coordenadas originales.
 - Muestreo de texeles de 4, 8 y 16 bpp mediante TPAGE, CLUT y UV, entregando RGBA para futuros materiales.
