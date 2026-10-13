@@ -49,3 +49,21 @@ def decode_faces(data: bytes, offset: int = 0) -> dict:
     result["warnings"] = warnings
     result["warning"] = "Packet survey only: no faces emitted without verified vertex-index layouts"
     return result
+
+def main() -> None:
+    import argparse
+    import json
+    from pathlib import Path
+    cli = argparse.ArgumentParser(description=__doc__)
+    cli.add_argument("input", type=Path)
+    cli.add_argument("--offset", type=lambda x: int(x, 0), default=0)
+    cli.add_argument("--output", type=Path, required=True)
+    args = cli.parse_args()
+    report = decode_faces(args.input.read_bytes(), args.offset)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, separators=(",", ":")) + "\n", encoding="utf-8")
+    print("Scanned", sum(o["primitiveCount"] for o in report["objects"]), "primitives")
+    print("Warnings:", len(report["warnings"]))
+
+if __name__ == "__main__":
+    main()
