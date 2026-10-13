@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.2 — 2026-10-12
+- Exportador experimental de caras TMD planas sin textura: triángulos y cuadriláteros de paquetes sin iluminación compatibles.
+- Escena Godot independiente que construye triángulos 3D coloreados desde JSON importado localmente.
+- Validación de índices y registro de paquetes no compatibles sin inventar geometría; pruebas con fixtures sintéticos.
+- Documentado que todavía no está identificado ni extraído el protagonista 3D ni recuperadas sus texturas y animaciones.
+- La ejecución en Godot sigue pendiente de validación.
+
 ## 0.7.1 — 2026-10-12
 - Inspector Python de paquetes de primitivas TMD: recorre registros y clasifica modos comunes de triángulos y cuadriláteros.
 - Validación de límites y longitudes sin fabricar caras ni UV no verificadas.
