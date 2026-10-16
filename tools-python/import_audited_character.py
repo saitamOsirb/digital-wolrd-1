@@ -33,7 +33,7 @@ def build_from_disc(disc: Path, audit: dict, archive: str, offset: int,
     candidate = select_candidate(audit, archive, offset)
     model = extract_iso_file(disc, archive)
     tims = [extract_iso_file(disc, path) for path in tim_paths]
-    result = build_preview(model, tims, output, offset)
+    result = build_preview(model, tims, output, offset, expected_faces=candidate["texturedFaces"])
     decoded = sum(len(obj["faces"]) for obj in result["objects"])
     if decoded != candidate["texturedFaces"]:
         raise ValueError("Audited face count differs from actual decoded face count")
