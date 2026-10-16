@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.4 — 2026-10-16
+- Validación cruzada del recuento de caras entre auditoría del disco y decodificación real antes de escribir los recursos de previsualización para Godot.
+- La importación de candidatos ahora transmite el número esperado de caras y detiene la generación si difiere, evitando una vista parcial que aparentaría estar validada.
+- Prueba de regresión añadida para comprobar la comunicación de ese recuento.
+- Pendiente validar el pipeline con archivos auténticos de protagonista y animaciones, así como su ejecución integrada en Godot.
+
 ## 0.8.3 — 2026-10-13
 - Importación guiada desde candidatos TMD auditados del disco original hacia la previsualización 3D texturizada de Godot.
 - Selección obligatoria de ruta de archivo, offset y rutas TIM reales: no se infiere identidad del protagonista ni su textura.
