@@ -36,6 +36,7 @@ class AuditedImportTests(unittest.TestCase):
             self.assertIn('"verifiedTamer": false', provenance)
             self.assertIn('"verifiedAnimation": false', provenance)
             self.assertEqual(extract.call_count, 2)
+            self.assertEqual(_preview.call_args.kwargs["expected_faces"], 2)
 
 if __name__ == "__main__":
     unittest.main()
