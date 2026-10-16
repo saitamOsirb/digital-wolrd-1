@@ -11,12 +11,15 @@ from inspect_tmd_uv import inspect_uv
 from psx_vram import Vram
 from render_psx_texture_page import render_page
 
-def build_preview(model: bytes, tims: list[bytes], output: Path, offset: int = 0) -> dict:
+def build_preview(model: bytes, tims: list[bytes], output: Path, offset: int = 0, expected_faces: int | None = None) -> dict:
     report = inspect_uv(model, offset)
     pages = sorted({(face["tpage"], face["clut"])
                     for obj in report["objects"] for face in obj["texturedFaces"]})
     if not pages:
         raise ValueError("No FT3/FT4 faces; cannot build a verified preview")
+    actual_faces = sum(len(obj["texturedFaces"]) for obj in report["objects"])
+    if expected_faces is not None and actual_faces != expected_faces:
+        raise ValueError(f"Audit mismatch: expected {expected_faces} faces but decoded {actual_faces}")
     gpu = Vram()
     for tim in tims:
         gpu.load_tim(tim)
